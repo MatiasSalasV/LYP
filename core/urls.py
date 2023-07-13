@@ -29,7 +29,7 @@ urlpatterns = [
     
     
     #URL PRINCIPAL QUE MUESTRA EL HOME DE LA PÁGINA AL INGRESAR Al Localhost http://127.0.0.1:8000/ 
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', TemplateView.as_view(template_name='index.html'), name='index'),
 
 
 ]
