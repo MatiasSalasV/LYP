@@ -56,7 +56,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
-TEMPLATE_DIR = os.path.join(CORE_DIR, "templates")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 TEMPLATES = [
     {
@@ -138,8 +138,6 @@ STATICFILES_DIRS = (
 )
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'img')
 STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'static-only')
-#STATIC_ROOT = os.path.join(CORE_DIR, 'static')
-
 
 #QUIZAS ACÁ DEBA CAMBIAR ALGO posteriormente
 
