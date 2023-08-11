@@ -24,7 +24,7 @@
     <header>
         <nav id='navbar' class="navbar fixed-top navbar-expand-md">
             <div class="container">
-                <a class="navbar-brand blanco" href="#">
+                <a class="navbar-brand blanco" href="{% url 'index' %}">
                     ObraNet
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -39,10 +39,10 @@
                     <div class="offcanvas-body">    
                         <ul class="navbar-nav ms-auto my-2">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Inicio</a>
+                                <a class="nav-link" href="{% url 'index' %}">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Acerca</a>
+                                <a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Proyectos</a>
