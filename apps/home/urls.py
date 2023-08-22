@@ -19,6 +19,12 @@ urlpatterns = [
     #URL que redirige a la página de acerca de nosotros
     path("nosotros/", views.nosotros.as_view(), name="nosotros"),
 
+    #URL que redirige a la página de proyectos
+    path("proyectos/", views.proyectos.as_view(), name="proyectos"),
+
+    #URL que redirige a la página de contácto
+    path("contacto/", views.contacto.as_view(), name="contacto"),
+
 
 
 ]

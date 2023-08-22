@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ObraNet</title>
+    <title>Nombre Página</title>
     <link rel="shortcut icon" href="{% static 'img/header.jpg' %}">
 
     <!-- bootstrap -->
@@ -45,10 +45,10 @@
                                 <a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Proyectos</a>
+                                <a class="nav-link" href="{% url 'proyectos' %}">Proyectos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Contacto</a>
+                                <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Registrate</a>
@@ -84,14 +84,14 @@
                 <div class="col-lg-4 col-md-12 ">
                     <h4>Enlaces</h4>
                     <ul>
-                        <li class="lead"><a href="#">Inicio</a></li>
-                        <li class="lead"><a href="#">Acerca de</a></li>
-                        <li class="lead"><a href="#">Proyectos</a></li>
-                        <li class="lead"><a href="#">Contácto</a></li>
+                        <li class="lead"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="lead"><a href="{% url 'nosotros' %}">Nosotros</a></li>
+                        <li class="lead"><a href="{% url 'proyectos' %}">Proyectos</a></li>
+                        <li class="lead"><a href="{% url 'contacto' %}">Contácto</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    <h4>ObraNet</h4>
+                    <h4>Pagina</h4>
                     <ul>
                         <li class="lead"><a href="#">Sobre nosotros</a></li>
                         <li class="lead"><a href="#">Términos y condiciones</a></li>
@@ -112,7 +112,7 @@
             <hr>
             <div class="row g-0">
                 <div class="col-md-12  text-center">
-                    <p>&copy; 2023 ObraNet. Todos los derechos reservados.</p>
+                    <p>&copy; 2023 Pagina. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>

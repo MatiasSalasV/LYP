@@ -205,9 +205,7 @@ section{
   top: 0;
 }
 .main-timeline .title{
-  color: #000;
   font-size: 20px;
-  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0 0 7px 0;
@@ -489,10 +487,37 @@ footer li a:hover{
   text-align: justify;
 }
 
+.nosotros_detalle .acerca_de_detalle {
+  padding: 5% 0;
+}
+
+.nosotros_detalle .acerca_de_detalle .col-titulo{
+  margin-bottom: 5%;
+}
+
+.nosotros_detalle .acerca_de_detalle .col-nosotros p{
+  padding: 1% 3%;
+}
+
 .nosotros_detalle .mision, 
-.nosotros_detalle .vision,
-.nosotros_detalle .valores {
+.nosotros_detalle .vision{
   margin: 8% 0;
+}
+
+.nosotros_detalle .row-valores {
+  margin-bottom: 5%;
+}
+
+.nosotros_detalle .row-valores-2 {
+  height: 40em;
+  margin-bottom: 10%;
+}
+
+
+.nosotros_detalle .col-valores div {
+  background-color: #fff;
+  margin: 0;
+  padding-bottom: 5%;
 }
 
 .nosotros_detalle .mision img, 
@@ -523,9 +548,11 @@ footer li a:hover{
 }
 
 .nosotros_detalle .integrante img {
-  border-radius: 50%;
-  background-color: #0D6073;
-  border: 4px solid #0D6073;
+  border-radius: 10%;
+  /* background-color: #0A4654; */
+  /* border: 1px solid #0D6073; */
+  max-height: 300px;
+  height: 100%;
 }
 
 .nosotros_detalle .integrante .redes_integrante {
@@ -543,6 +570,151 @@ footer li a:hover{
 
 .nosotros_detalle .integrante .redes_integrante i:hover{
   color: #333;
+}
+
+.proyectos_detalle .col-proyectos-titulo{
+  padding: 2.5% 0;
+}
+
+.image-box {
+  height: 400px;
+  /* width: 400px; */
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+/* Estilos para la imagen dentro del contenedor */
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+/* Estilos para el texto de superposición */
+.image-box .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(13, 96, 115, 0.719);
+  color: #fff;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  height: 100%;
+  width: 100%;
+}
+
+/* Comportamiento al pasar el mouse */
+.image-box:hover img {
+  opacity: 0.7;
+}
+
+.image-box:hover .overlay {
+  opacity: 1;
+}
+
+.contacto_detalle{
+  background: linear-gradient(to bottom, #f9f6f3 0%, rgba(249, 246, 243, 0) 100%);
+}
+
+.contacto_detalle .row-detalle {
+  margin: 5% 0;
+}
+
+.barra-lateral-contacto div{
+  margin: 3% 0;
+}
+
+.llamanos {
+  background-color: #0a46543a;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.llamanos p {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.preguntas_precuentes_contacto {
+  background-color: #0a46543a;
+  padding: 7% 10%;
+}
+
+.preguntas_precuentes_contacto ul {
+  list-style: none;
+  padding: 0; 
+  text-decoration: none;
+}
+
+.preguntas_precuentes_contacto li {
+  margin-bottom: 3%;
+}
+
+.preguntas_precuentes_contacto li a{
+  text-decoration: none;
+  color: #0A4654;
+}
+
+.preguntas_precuentes_contacto li a:hover{
+  text-decoration: underline;
+  text-underline-position: under;
+
+}
+
+.contacto_detalle .row_texto{
+  margin-bottom: 5vh;
+}
+
+/* Estilos para el formulario */
+.contacto_detalle form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los campos del formulario */
+.contacto_detalle .form-group {
+  margin-bottom: 20px;
+}
+
+.contacto_detalle label {
+  font-weight: bold;
+}
+
+.contacto_detalle input[type="text"],
+.contacto_detalle input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.contacto_detalle input[type="text"]:focus,
+.contacto_detalle input[type="email"]:focus {
+  border-color: #0D6073;
+}
+
+/* Estilos para el botón de envío */
+.contacto_detalle button[type="submit"] {
+  background-color: #0D6073;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contacto_detalle button[type="submit"]:hover {
+  background-color: #0A4654;
 }
 
 
@@ -595,6 +767,10 @@ footer li a:hover{
     padding-bottom: 20px;
     justify-content: center;
   }
+  .nosotros_detalle .row-valores-2 {
+    height: 100%;
+  }
+  
   
 
 }

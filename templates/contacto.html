@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+{% block content %}
+
+<section id="contacto" class="contacto_detalle">
+    <div class="container">
+        <div class="row row-detalle">
+            <div class="col-lg-8">
+                <p class="display-2">Contáctanos</p>
+                <hr><br>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati corporis neque inventore nulla excepturi dignissimos pariatur numquam earum? Voluptatibus enim, in corporis ipsum porro modi? Ipsum nostrum rem nam velit quasi fugit sunt repellendus qui laboriosam ullam iure unde voluptate obcaecati, beatae esse soluta. Quos minus sit nihil dolorem aut.</p>
+                <br>
+                <p><b>Correo:</b> example@gmail.com</p>
+                <p><b>Teléfono:</b> +56 9 6848 5827</p>
+                <p><b>Oficina: </b>Las Vegas 2948, Santiago</p>
+                <br><br>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="empresa">Empresa:</label>
+                            <input type="text" class="form-control" id="empresa" name="empresa" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="correo">Correo electrónico:</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje:</label>
+                            <textarea class="form-control" name="mensaje" id="mensaje" required rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div>
+            </div>
+           <div class="col-lg-4 barra-lateral-contacto">
+                <div class="llamanos">
+                    <p>Llámanos al <b>+56 9 4827 5764</b></p>
+                </div>
+                <div>
+                    <img src="https://cammconstructioninc.com/wp-content/uploads/2018/12/building-construction-sunset.jpg" alt="">
+                </div>
+                <div class="preguntas_precuentes_contacto">
+                    <p><b>Preguntas frecuentes</b></p>
+                    <ul>
+                        <li><a href="#">¿Cómo me registro en la página?</a></li>
+                        <li><a href="#">¿Cómo se publica un proyecto?</a></li>
+                        <li><a href="#">¿Cómo envío un presupuesto?</a></li>
+                        <li><a href="#">¿Cómo veo los presupuestos que he recibido?</a></li>
+                        <li><a href="#">¿Cómo acepto/rechazo un presupuesto?</a></li>
+                        <li>....</li>
+                    </ul>
+                </div>
+           </div>
+        </div>
+    </div>
+    
+</section>
+
+{% endblock content %}

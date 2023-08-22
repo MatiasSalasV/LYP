@@ -7,4 +7,10 @@ class index(TemplateView):
 class nosotros(TemplateView):
     template_name = 'nosotros.html'
 
+class proyectos(TemplateView):
+    template_name = 'proyectos.html'
+
+class contacto(TemplateView):
+    template_name = 'contacto.html'
+
 
