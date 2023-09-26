@@ -25,6 +25,12 @@ urlpatterns = [
     #URL que redirige a la página de contácto
     path("contacto/", views.contacto.as_view(), name="contacto"),
 
+    #URL para registrar usuario
+    path("registro/", views.registro_usuario, name='registro_usuario'),
+
+    path('login/', views.login, name='login'),
+
+    path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
 
 
 ]

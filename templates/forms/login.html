@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+
+{% block content %}
+<div class="content-section">
+    <br><br><br><br><br><br>
+  <h2>Iniciar sesión</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Iniciar sesión</button>
+  </form>
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      ¿No tienes una cuenta? <a class="ml-2" href="{% url 'registro_usuario' %}">Registrate</a>
+    </small>
+  </div>
+</div>
+{% endblock %}
