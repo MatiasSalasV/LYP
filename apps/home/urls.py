@@ -32,6 +32,10 @@ urlpatterns = [
 
     path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
 
+    #URL para la vista de perfil
+    path('perfil/', views.ver_perfil, name='ver_perfil'),  
+
+
 
 ]
  

@@ -1,0 +1,51 @@
+.registro_usuario .row, .login_usuario .row {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    padding: 5% 0;
+}
+
+.form_registro label{
+    padding: 2% 0;
+}
+
+.form_registro button{
+    margin: 3% 0;
+    width: 50%;
+    background-color: #0D6073;
+    font-size: large;
+}
+
+.form_registro button:hover{
+    background-color: #144752;
+    color: #ffffff;
+}
+
+.perfil .editar_perfil {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 2%;
+}
+
+
+.icon-circle {
+    display: inline-block; /* Hace que el enlace sea un bloque en línea */
+    background-color: #0D6073; /* Color de fondo del círculo */
+    border-radius: 50%; /* Hace que el enlace tenga bordes redondeados, formando un círculo */
+    width: 40px; /* Ancho del círculo */
+    height: 40px; /* Altura del círculo */
+    text-align: center; /* Centra el ícono horizontalmente */
+    line-height: 40px; /* Centra el ícono verticalmente */
+    color: #ffffff; /* Color del ícono */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+/* Cambia el color del ícono cuando se pasa el mouse sobre él */
+.icon-circle:hover {
+    background-color: #144752; /* Color de fondo del círculo al pasar el mouse */
+    color: #ffffff; /* Color del ícono al pasar el mouse */
+}
+
+
+    

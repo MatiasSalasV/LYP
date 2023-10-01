@@ -25,12 +25,13 @@ class CustomUserManager(BaseUserManager):
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     TIPO_USUARIO_CHOICES = [
+        ('', '--- Selecciona el tipo de usuario ---'),
         ('Contratista', 'Contratista'),
         ('Constructora', 'Constructora')
     ]
     email = models.EmailField(("Email"),unique=True)
     nombre_completo = models.CharField(("Nombre"),max_length=100,null=True,blank=True)
-    tipo_usuario = models.CharField(("Tipo usuario"),max_length=20,null=True,blank=True)
+    tipo_usuario = models.CharField(("Tipo usuario"),max_length=20,choices=TIPO_USUARIO_CHOICES,null=True,blank=True,default='')
     nombre_empresa = models.CharField("Nombre empresa", max_length=50,null=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+{% block content %}
+    <section class="perfil">
+        <div class="container">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="https://cdn.icon-icons.com/icons2/2468/PNG/512/user_icon_149329.png" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                        <h5 class="card-title display-1">{{ perfil.nombre_completo }}</h5>
+                        <p class="card-text lead"><i class="bi bi-envelope"></i> {{ perfil.email }}</p>
+                        <p class="card-text lead"><i class="bi bi-building"></i> {{ perfil.nombre_empresa }}</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 editar_perfil">
+                        <a href="#" class="icon-circle">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

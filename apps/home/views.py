@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import RegistroUsuarioForm, LoginForm
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 
 
 class index(TemplateView):
@@ -41,3 +42,9 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, 'forms/login.html', {'form': form})
+
+@login_required  # Esto asegura que solo usuarios logueados pueden acceder a esta vista
+def ver_perfil(request):
+    usuario = request.user  # Obtiene el usuario logueado
+    perfil = usuario.ver_perfil()  # Llama a la función ver_perfil del modelo de usuario
+    return render(request, 'usuario/ver_perfil.html', {'perfil': perfil})
