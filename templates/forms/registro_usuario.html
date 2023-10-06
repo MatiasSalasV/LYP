@@ -14,27 +14,41 @@
         <h3>Registro de usuario</h3>
       </div>
       <div class="col-6 form_registro">
-        <form method='POST' class="form_registro_user">
+        <form method='POST' class="form_registro_user" enctype="multipart/form-data">
           {% csrf_token %}
-          <fieldset class="form-group">
-            <label for="{{ form.email.id_for_label }}">Email:</label>
-            {{ form.email }}
-            
-            <label for="{{ form.nombre_completo.id_for_label }}">Nombre Completo:</label>
-            {{ form.nombre_completo }}
-            
-            <label for="{{ form.tipo_usuario.id_for_label }}">Tipo de Usuario:</label>
-            {{ form.tipo_usuario }}
-            
-            <label for="{{ form.nombre_empresa.id_for_label }}">Nombre de Empresa:</label>
-            {{ form.nombre_empresa }}
-            
-            <label for="{{ form.password1.id_for_label }}">Contraseña:</label>
-            {{ form.password1 }}
-            
-            <label for="{{ form.password2.id_for_label }}">Confirmar Contraseña:</label>
-            {{ form.password2 }}
-          </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <div class="col-6">
+                  <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+                  {{ form.nombre }}
+                </div>
+                <div class="col-6">
+                  <label for="{{ form.apellido.id_for_label }}">Apellido:</label>
+                  {{ form.apellido }}
+                </div>
+                <div class="col-12">
+                  <label for="{{ form.email.id_for_label }}">Email:</label>
+                  {{ form.email }}
+                </div>
+                <div class="col-6">
+                  <label for="{{ form.tipo_usuario.id_for_label }}">Tipo de Usuario:</label>
+                  {{ form.tipo_usuario }}
+                </div>
+                <div class="col-6">
+                  <label for="{{ form.nombre_empresa.id_for_label }}">Nombre de Empresa:</label>
+                  {{ form.nombre_empresa }}
+                </div>
+                <div class="col-6">
+                  <label for="{{ form.password1.id_for_label }}">Contraseña:</label>
+                  {{ form.password1 }}
+                </div>
+                <div class="col-6">
+                  <label for="{{ form.password2.id_for_label }}">Confirmar Contraseña:</label>
+                  {{ form.password2 }}
+                </div>   
+                     
+              </div>
+            </fieldset>
           <div class="form-group text-center">
             <button class="btn btn-primary" type="submit">Registrarse</button>
           </div>

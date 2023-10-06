@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Usuario, Experiencia, Certificacion, Proyecto, Presupuesto, Categoria, ProyectoCategoria
+from .models import Usuario, Experiencia, Certificacion, Proyecto, Presupuesto, Categoria
 
 # Registra tus modelos aquí
 
@@ -9,4 +9,3 @@ admin.site.register(Certificacion)
 admin.site.register(Proyecto)
 admin.site.register(Presupuesto)
 admin.site.register(Categoria)
-admin.site.register(ProyectoCategoria)

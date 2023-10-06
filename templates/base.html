@@ -88,14 +88,6 @@
         
         {% endblock %}
 
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
     </main>
 
     <footer>
@@ -148,7 +140,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/4f42d9e0a7.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    {% if messages %}
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    "tittle": "Felicitaciones",
+                    "text": "{{m}}",
+                    "icon":"success"
+                })
+            </script>
+        {% endfor%}
+    {% endif%}
+
+    {% block extrajs %}
+    {% endblock %}
    
 </body>
 </html>
