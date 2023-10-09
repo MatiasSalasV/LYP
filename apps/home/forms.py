@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Usuario, Experiencia, Certificacion
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 
 class RegistroUsuarioForm(UserCreationForm):
@@ -39,7 +40,7 @@ class RegistroUsuarioForm(UserCreationForm):
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido', 'email', 'tipo_usuario', 'nombre_empresa', 'foto_perfil']
+        fields = ['nombre', 'apellido', 'email', 'tipo_usuario', 'nombre_empresa','presentacion', 'foto_perfil']
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
@@ -47,7 +48,10 @@ class UsuarioForm(forms.ModelForm):
             'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),  
             'tipo_usuario': forms.Select(attrs={'class': 'form-control'}),
             'nombre_empresa': forms.TextInput(attrs={'class': 'form-control'}),
+            'presentacion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
+
+
 
     def clean_tipo_usuario(self):
         tipo_usuario = self.cleaned_data.get('tipo_usuario')
@@ -67,11 +71,36 @@ class LoginForm(AuthenticationForm):
 
 
 class ExperienciaForm(forms.ModelForm):
+    fecha_inicio = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+        input_formats=('%Y-%m-%d',)
+    )
+    fecha_fin = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+        input_formats=('%Y-%m-%d',),
+        required=False
+    )
     class Meta:
         model = Experiencia
         fields = ['nombre_proyecto', 'fecha_inicio', 'fecha_fin', 'descripcion_proyecto', 'funciones']
+        widgets = {
+            'nombre_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del proyecto'}),
+            # 'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            # 'fecha_fin': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'descripcion_proyecto': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Descripción general del proyecto'}),
+            'funciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Detalles de tus responsabilidades y funciones en el proyecto'}),
+        }
 
 class CertificacionForm(forms.ModelForm):
+    fecha_obtencion = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+        input_formats=('%Y-%m-%d',)
+    )
     class Meta:
         model = Certificacion
         fields = ['nombre_certificacion', 'fecha_obtencion', 'archivo_certificacion']
+        widgets = {
+            'nombre_certificacion': forms.TextInput(attrs={'class': 'form-control'}),
+            # 'fecha_obtencion': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'archivo_certificacion': forms.FileInput(attrs={'class': 'form-control'}),
+        }

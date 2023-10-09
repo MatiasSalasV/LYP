@@ -1,10 +1,15 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .forms import RegistroUsuarioForm, LoginForm, UsuarioForm
+from .forms import *
+from .models import *
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import UpdateView
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseForbidden
 
 
 class index(TemplateView):
@@ -32,7 +37,7 @@ def registro_usuario(request):
             user = authenticate(request, username=username, password=password)  # Autentica al usuario
             if user is not None:
                 auth_login(request, user)  # Inicia la sesión del usuario
-            messages.success(request, f'Cuenta creada para {username}!')
+            messages.success(request, f'Cuenta creada para {username}')
             return redirect('index')
     else:
         form = RegistroUsuarioForm()
@@ -44,6 +49,9 @@ def login(request):
         if form.is_valid():
             auth_login(request, form.get_user())
             return redirect('index')
+        else:
+                messages.error(request, 'Correo y/o contraseña inválidos. Por favor, inténtelo de nuevo.')
+                form = LoginForm()
     else:
         form = LoginForm()
     return render(request, 'forms/login.html', {'form': form})
@@ -51,13 +59,104 @@ def login(request):
 @login_required  # Esto asegura que solo usuarios logueados pueden acceder a esta vista
 def ver_perfil(request):
     usuario = request.user
+    experiencias = usuario.experiencias.all()
+    certificaciones = usuario.certificaciones.all()
+    form_experiencia = ExperienciaForm()
+    form_certificacion = CertificacionForm()
+
     if request.method == 'POST':
-        form = UsuarioForm(request.POST, request.FILES, instance=usuario)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Perfil actualizado con éxito!')
-            return redirect('ver_perfil')
+        submit_button = request.POST.get('submit_button')
+
+        if submit_button == 'usuario':
+            form = UsuarioForm(request.POST, request.FILES, instance=usuario)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Perfil actualizado con éxito')
+                return redirect('ver_perfil')
+            
+        elif submit_button == 'experiencia':
+            form_experiencia = ExperienciaForm(request.POST)
+            if form_experiencia.is_valid():
+                experiencia = form_experiencia.save(commit=False)
+                experiencia.usuario = request.user
+                experiencia.save()
+                messages.success(request, 'Experiencia agregada con éxito')
+                return redirect('ver_perfil')
+            
+        elif submit_button == 'certificacion':
+            form_certificacion = CertificacionForm(request.POST, request.FILES)
+            if form_certificacion.is_valid():
+                certificacion = form_certificacion.save(commit=False)
+                certificacion.usuario = request.user
+                certificacion.save()
+                messages.success(request, 'Certificación agregada con éxito')
+                return redirect('ver_perfil')
     else:
         form = UsuarioForm(instance=usuario)
-    return render(request, 'usuario/ver_perfil.html', {'perfil': usuario, 'form': form})
 
+    contexto = {
+        'perfil':usuario,
+        'form': form,
+        'form_experiencia': form_experiencia,
+        'form_certificacion': form_certificacion,
+        'experiencias': experiencias,
+        'certificaciones': certificaciones,
+    }
+
+    return render(request, 'usuario/ver_perfil.html', contexto)
+
+@login_required
+def ver_todas_experiencias(request):
+    usuario = request.user
+    todas_experiencias = usuario.experiencias.all()
+
+    contexto = {
+        'experiencias': todas_experiencias,
+    }
+    return render(request, 'usuario/todas_experiencias.html', contexto)
+
+@login_required
+def editar_experiencia(request, pk):
+    experiencia = get_object_or_404(Experiencia, pk=pk)
+    if experiencia.usuario != request.user:
+        return HttpResponseForbidden("No tienes permiso para editar esta experiencia.")
+    if request.method == 'POST':
+        form = ExperienciaForm(request.POST, instance=experiencia)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Experiencia actualizada con éxito')
+            return redirect(reverse('ver_todas_experiencias'))
+    else:
+        form = ExperienciaForm(instance=experiencia)
+    contexto = {
+        'form': form,
+    }
+    return render(request, 'usuario/editar_experiencia.html', contexto)
+
+@login_required
+def ver_todas_certificaciones(request):
+    usuario = request.user
+    todas_certificaciones = usuario.certificaciones.all()
+
+    contexto = {
+        'certificaciones': todas_certificaciones,
+    }
+    return render(request, 'usuario/todas_certificaciones.html', contexto)
+
+@login_required
+def editar_certificacion(request, pk):
+    certificacion = get_object_or_404(Certificacion, pk=pk)
+    if certificacion.usuario != request.user:
+        return HttpResponseForbidden("No tienes permiso para editar esta certificación.")
+    if request.method == 'POST':
+        form = CertificacionForm(request.POST, instance=certificacion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Certificación actualizada con éxito')            
+            return redirect(reverse('ver_todas_certificaciones'))
+    else:
+        form = CertificacionForm(instance=certificacion)
+    contexto = {
+        'form': form,
+    }
+    return render(request, 'usuario/editar_certificacion.html', contexto)

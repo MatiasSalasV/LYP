@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+{% block content %}
+    <section class="agregar_experiencia">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Agregar Experiencia</h3>
+                </div>
+            </div>
+            <div class="col-lg-6 form_registro">
+                <form method="POST" class="form_registro_user">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="{{ form.nombre_proyecto.id_for_label }}">Nombre empresa: </label>
+                                {{ form.nombre_proyecto }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="{{ form.fecha_inicio.id_for_label }}">Fecha inicio: </label>
+                                {{ form.fecha_inicio }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="{{ form.fecha_fin.id_for_label }}">Fecha fin: </label>
+                                {{ form.fecha_fin }}
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="{{ form.descripcion_proyecto.id_for_label }}">Descripción del proyecto: </label>
+                                {{ form.descripcion_proyecto }}
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="{{ form.funciones.id_for_label }}">Funciones: </label>
+                                {{ form.funciones }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary" type="submit">Agregar experiencia</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extrajs %}
+
+{% endblock %}

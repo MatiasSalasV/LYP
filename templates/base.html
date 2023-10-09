@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+
 
 
 </head>
@@ -145,13 +147,25 @@
 
     {% if messages %}
         {% for m in messages %}
-            <script>
-                Swal.fire({
-                    "tittle": "Felicitaciones",
-                    "text": "{{m}}",
-                    "icon":"success"
-                })
-            </script>
+        <script>
+            let messageType = "{{ m.tags }}";  // Esto obtendrá el nivel del mensaje, como "success" o "error"
+            let messageIcon = "info";
+            let messageTitle = "Mensaje";
+
+            if (messageType === "success") {
+                messageIcon = "success";
+                messageTitle = "Felicitaciones";
+            } else if (messageType === "error") {
+                messageIcon = "error";
+                messageTitle = "Error";
+            }  // Puedes agregar más condiciones para otros tipos de mensajes si lo necesitas
+
+            Swal.fire({
+                "title": messageTitle,
+                "text": "{{ m }}",
+                "icon": messageIcon
+            })
+        </script>
         {% endfor%}
     {% endif%}
 

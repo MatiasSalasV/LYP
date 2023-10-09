@@ -1,0 +1,154 @@
+.perfil_usuario .perfil_body,
+.perfil_usuario{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+ .perfil_usuario .perfil_header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    margin-top: 80px;
+ }
+
+.perfil_usuario .perfil_portada{
+    display: block;
+    position: relative;
+    width: 90%;
+    height: 17rem;
+    background: linear-gradient(to bottom, #0D6073, #a1bcc2);
+    border-radius: 0 0 20px 20px;
+}
+
+.perfil_usuario .perfil_header .boton_portada{
+    margin-top: 80px;
+    margin-right: 80px;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    background-color: rgba(0,0,0,.5);
+    color: #ffff;
+    cursor: pointer;
+}
+
+.perfil_usuario .perfil_header .boton_portada:hover{
+    background-color: rgba(0, 0, 0, 0.702);
+
+}
+
+.perfil_usuario .perfil_header .boton_portada i{
+    margin-right: 1rem;
+}
+
+.perfil_usuario .perfil_avatar{
+    display: flex;
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #ffffff;
+    background-color: #DFE5F2;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0,0,0,.2);
+    position: absolute;
+    bottom: -40px;
+    left: calc(50% - 90px);
+    z-index: 1;
+}
+
+.perfil_usuario .perfil_avatar img{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.perfil_usuario .perfil_avatar .boton_avatar{
+    position:absolute;
+    left: -2px;
+    top: -2px;
+    border: 0;
+    background-color: #ffff;
+    box-shadow: 0 0 12px rgba(0,0,0,.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.perfil_usuario .perfil_body{
+    width: 75%;
+}
+
+.perfil_usuario .perfil_body .titulo{
+    display: block;
+    width: 100%;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.perfil_usuario .perfil_body .texto{
+    font-size: 0.95em;
+    width: 100%;
+    margin: 2.5%;
+    color: #646f71;
+}
+
+.perfil_usuario .perfil_bio,
+.perfil_usuario .perfil_experiencias,
+.perfil_usuario .perfil_certificaciones{
+    padding: 1.5rem 2rem;
+    box-shadow: 0 0 12px rgba(0,0,0,.2);
+    background-color: #ffff;
+    border-radius: 15px;
+    width: 100%;
+    margin-bottom: 1.25rem;
+}
+
+.perfil_usuario .perfil_bio{
+    text-align: center;
+    justify-content: space-around;
+}
+
+/* .perfil_usuario .perfil_bio .row_datos{
+    display: flex;
+} */
+
+.perfil_usuario .lista_datos{
+    margin: 2% 0%;
+    width: 100%;
+}
+
+.perfil_usuario .lista_datos i{
+    padding: 10% 0;
+}
+
+.perfil_usuario .lista_datos li > .icono {
+    /* margin-right: 1rem; */
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+@media (max-width:750px) {
+    .perfil_usuario .lista_datos{
+        width: 100%;
+    }
+
+    .perfil_usuario .perfil_portada,
+    .perfil_usuario .perfil_body{
+        width: 95%;
+    }
+
+    .perfil_usuario .perfil_header .boton_portada{
+        margin-top: 80px;
+        margin-right: 10px;
+    }
+   
+}

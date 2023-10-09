@@ -35,6 +35,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     tipo_usuario = models.CharField(("Tipo usuario"),max_length=20,choices=TIPO_USUARIO_CHOICES,null=True,blank=True,default='')
     nombre_empresa = models.CharField(("Nombre empresa"), max_length=50,null=True,blank=True)
     foto_perfil = models.ImageField("Foto de perfil", upload_to='fotos_perfil/', blank=True, null=True)    
+    presentacion = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     fecha_registro = models.DateField(("Fecha de Registro"), auto_now_add=True)
@@ -52,14 +53,17 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
             'tipo_usuario': self.tipo_usuario,
             'nombre_empresa': self.nombre_empresa,
             'foto_perfil': self.foto_perfil,
+            'presentacion':self.presentacion,
         }
     
-    def publicar_proyecto(self, nombre_proyecto, descripcion):
+    def publicar_proyecto(self, nombre_proyecto, descripcion,foto_proyecto,categorias):
         if self.es_constructora():
             Proyecto.objects.create(
                 usuario=self,
                 nombre_proyecto=nombre_proyecto,
-                descripcion=descripcion
+                descripcion=descripcion,
+                foto_proyecto=foto_proyecto,
+                categorias=categorias,
             )
 
     def enviar_presupuesto(self, proyecto_id, descripcion, monto):
@@ -106,8 +110,9 @@ class Experiencia(models.Model):
     nombre_proyecto = models.CharField(max_length=255,null=True,blank=True)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField(null=True, blank=True)
-    descripcion_proyecto = models.TextField(help_text="Descripción general del proyecto.")
-    funciones = models.TextField(help_text="Detalles de tus responsabilidades y funciones en el proyecto.")
+    descripcion_proyecto = models.TextField(blank=True, null=True)
+    funciones = models.TextField(blank=True, null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.nombre_proyecto} - {self.usuario.nombre + ' ' + self.usuario.apellido}"
@@ -146,6 +151,7 @@ class Certificacion(models.Model):
     nombre_certificacion = models.CharField(max_length=255, null=True,blank=True)
     fecha_obtencion = models.DateField()
     archivo_certificacion = models.FileField(upload_to='certificaciones/', null=True, blank=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def actualizar_certificacion(self, nuevo_nombre=None, nueva_fecha=None, nuevo_archivo=None):
         if nuevo_nombre:
@@ -188,7 +194,7 @@ class Proyecto(models.Model):
 
     usuario = models.ForeignKey(get_user_model(), related_name='proyectos', on_delete=models.CASCADE)
     nombre_proyecto = models.CharField(max_length=255)
-    descripcion = models.TextField()
+    descripcion = models.TextField(blank=True, null=True)
     foto_proyecto = models.ImageField("Foto proyecto", upload_to='fotos_proyecto/', blank=True, null=True) 
     categorias = models.ManyToManyField(Categoria, related_name='proyectos')  
     fecha_publicacion = models.DateField(auto_now_add=True)

@@ -5,133 +5,206 @@
 {% endblock %}
 
 {% block content %}
-    <section class="perfil">
-        <div class="container">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        {% if perfil.foto_perfil %}
-                            <img src="{{ perfil.foto_perfil.url }}" class="img-fluid rounded-start" alt="Foto de perfil">
-                        {% else %}
-                            <!-- Puedes poner una imagen por defecto aquí si lo deseas -->
-                            <img src="https://cdn.icon-icons.com/icons2/2468/PNG/512/user_icon_149329.png" class="img-fluid rounded-start" alt="Imagen por defecto">
-                        {% endif %}                         
+    <div class="perfil_usuario">
+        <div class="perfil_header">
+            <div class="perfil_portada">
+                <div class="perfil_avatar">
+                    {% if perfil.foto_perfil %}
+                    <img src="{{ perfil.foto_perfil.url }}" alt="Foto de perfil">
+                    {% else %}
+                    <img src="https://cdn.icon-icons.com/icons2/2468/PNG/512/user_icon_149329.png" class="img-fluid" alt="Imagen por defecto">
+                    {% endif %} 
+                    <button type="button" class="boton_avatar">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="boton_portada" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
+                    <i class="bi bi-pen"> Editar perfil</i>
+            </button>
+        </div>
+        <div class="perfil_body">
+            <div class="perfil_bio">
+                <h3 class="titulo">{{ perfil.nombre }} {{perfil.apellido}}</h3>
+                <p class="texto">{{perfil.presentacion}}</p>
+                <div class="row lista_datos">
+                    <div class="col-lg-4">
+                        <i class="bi bi-envelope icono icon_image"></i> {{ perfil.email }}
                     </div>
-                    <div class="col-md-7">
-                        <div class="card-body">
-                        <h5 class="card-title display-1">{{ perfil.nombre }} {{perfil.apellido}}</h5>
-                        <p class="card-text lead"><i class="bi bi-envelope"></i> {{ perfil.email }}</p>
-                        <p class="card-text lead"><i class="bi bi-building"></i> {{ perfil.nombre_empresa }}</p>
-                        <p class="card-text lead"><i class="bi bi-person-vcard"></i> {{ perfil.tipo_usuario}} </p>
-                        </div>
+                    <div class="col-lg-4">
+                        <i class="bi bi-building icono icon_image"></i> {{ perfil.nombre_empresa }}                    
                     </div>
-                    <div class="col-md-1 editar_perfil">
-                        <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
-                            <i class="bi bi-pen"></i>
-                        </a>
+                    <div class="col-lg-4">
+                        <i class="bi bi-person-vcard icono icon_image"></i> {{ perfil.tipo_usuario}}                    
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="perfil_experiencias">
+                <div class="row row_experiencias">
+                    <div class="col-lg-12 d-flex justify-content-between">
+                        <p class="titulo">Experiencia</p>
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="#modalAgregarExperiencia">
+                                <i class="bi bi-plus-circle"></i>
+                            </a>
+                            {% if experiencias|length > 0 %}
+                            <a href="{% url 'ver_todas_experiencias' %}" class="icon-circle" >
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            {% else %}
+                            
+                            {% endif %}
                         </div>
-                        <div class="modal-body form_registro">
-                            <form method="post" enctype="multipart/form-data" class="registro_usuario">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                            </form>
-                        </div>
+                    </div>
+                    <!-- <hr> -->
+                    <div class="col-lg-12">
+                        {% for experiencia in experiencias %}
+                            {% if forloop.counter <= 3 %}
+                                <p>{{ experiencia.nombre_proyecto }} - {{ experiencia.fecha_inicio }} a {{ experiencia.fecha_fin }}</p>
+                                <p>{{ experiencia.descripcion_proyecto }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if experiencias|length > 3 %}
+                            <a href="{% url 'ver_todas_experiencias' %}">Ver todos</a>
+                        {% elif experiencias|length == 0 %}
+                            <p>No hay experiencias registradas.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            <div class="row row_experiencias">
-                <div class="col-lg-12 d-flex justify-content-between">
-                    <p class="display-6">Experiencia</p>
-                    <div>
-                        <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="#modalAgregarExperiencia">
-                            <i class="bi bi-plus-circle"></i>
-                        </a>
-                        <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="">
-                            <i class="bi bi-pen"></i>
-                        </a>
-                    </div>
-                </div>
-                <hr>
-                <div class="col-lg-12">
-                    {% for experiencia in experiencias %}
-                        <p>{{ experiencia.nombre_proyecto }} - {{ experiencia.fecha_inicio }} a {{ experiencia.fecha_fin }}</p>
-                        <p>{{ experiencia.descripcion_proyecto }}</p>
-
-                    {% empty %}
-                        <p>No hay experiencias registradas.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="row row_certificaciones">
-                <div class="col-lg-12 d-flex justify-content-between">
-                    <p class="display-6">Certificaciones</p>
-                    <div>
-                        <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="#modalAgregarCertificacion">
-                            <i class="bi bi-plus-circle"></i>
-                        </a>
-                        <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="">
-                            <i class="bi bi-pen"></i>
-                        </a>
-                    </div>
-                </div>
-                <hr>
-                <div class="col-lg-12">
-                    {% for certificacion in certificaciones %}
-                        <p>{{ certificacion.nombre_certificacion }} - {{ certificacion.fecha_obtencion }}</p>
-                    {% empty %}
-                        <p>No hay certificaciones registradas.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <!-- Modal para agregar experiencia -->
-            <div class="modal fade" id="modalAgregarExperiencia" tabindex="-1" aria-labelledby="modalAgregarExperienciaLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalAgregarExperienciaLabel">Agregar Experiencia</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body form_registro">
-                            <form method="post">
-                                {% csrf_token %}
-                                {{ form_experiencia.as_p }}
-                                <button type="submit">Agregar Experiencia</button>
-                            </form>
+            <div class="perfil_certificaciones">
+                <div class="row row_certificaciones">
+                    <div class="col-lg-12 d-flex justify-content-between">
+                        <p class="titulo">Certificaciones</p>
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="icon-circle" data-bs-toggle="modal" data-bs-target="#modalAgregarCertificacion">
+                                <i class="bi bi-plus-circle"></i>
+                            </a>
+                            {% if certificaciones|length > 0 %}
+                            <a href="{% url 'ver_todas_certificaciones' %}" class="icon-circle">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            {% else %}
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Modal para agregar certificación -->
-            <div class="modal fade" id="modalAgregarCertificacion" tabindex="-1" aria-labelledby="modalAgregarCertificacionLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalAgregarCertificacionLabel">Agregar Certificación</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body form_registro">
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form_certificacion.as_p }}
-                                <button type="submit">Agregar Certificación</button>
-                            </form>
-                        </div>
+                    <!-- <hr> -->
+                    <div class="col-lg-12">
+                        {% for certificacion in certificaciones %}
+                            {% if forloop.counter <= 3 %}
+                                <p>{{ certificacion.nombre_certificacion }} - {{ certificacion.fecha_obtencion }}</p>
+                            {% endif %}
+                        {% endfor %}
+    
+                        {% if certificaciones|length > 3 %}
+                            <a href="{% url 'ver_todas_certificaciones' %}">Ver todos</a>
+                        {% elif experiencias|length == 0 %}
+                            <p>No hay certificaciones registradas.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+    </div>
+
+    <!-- Modal para editar perfil  -->
+    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body form_registro">
+                    <form method="post" enctype="multipart/form-data" class="registro_usuario">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+                                    {{ form.nombre }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="{{ form.apellido.id_for_label }}">Apellido:</label>
+                                    {{ form.apellido }}
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                                    {{ form.email }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="{{ form.tipo_usuario.id_for_label }}">Tipo de Usuario:</label>
+                                    {{ form.tipo_usuario }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="{{ form.nombre_empresa.id_for_label }}">Nombre de Empresa:</label>
+                                    {{ form.nombre_empresa }}
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="{{ form.presentacion.id_for_label }}">Presentación:</label>
+                                    {{ form.presentacion }}
+                                  </div> 
+                                <div class="col-lg-12">
+                                    <label for="{{ form.foto_perfil.id_for_label }}">Foto de perfíl:</label>
+                                    {{ form.foto_perfil }}
+                                </div>                                         
+                            </div>
+                        </fieldset>
+                        <!-- {{ form.as_p }} -->
+                        <button type="submit" class="btn btn-primary" name="submit_button" value="usuario">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar experiencia -->
+    <div class="modal fade" id="modalAgregarExperiencia" tabindex="-1" aria-labelledby="modalAgregarExperienciaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarExperienciaLabel">Agregar Experiencia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body form_registro">
+                    <form method="POST" class="form_registro_user">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{form_experiencia.as_p}}
+                        </fieldset>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" type="submit" name="submit_button" value="experiencia">Agregar experiencia</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>          
+    </div>
+    
+     <!-- Modal para agregar certificación -->
+     <div class="modal fade" id="modalAgregarCertificacion" tabindex="-1" aria-labelledby="modalAgregarCertificacionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarCertificacionLabel">Agregar Certificación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body form_registro">
+                    <form method="POST" class="form_registro_user" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{form_certificacion.as_p}}
+                        </fieldset>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" type="submit" name="submit_button" value="certificacion">Agregar certificación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extrajs %}

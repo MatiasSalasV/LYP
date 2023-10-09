@@ -6,13 +6,6 @@ from . import views
 
 
 urlpatterns = [
-    # #URL que redirige a la página de inicio de sesión
-    #path('accounts/login/', login_view, name="login"),
-    #path("logout/", LogoutView.as_view(), name="logout"),
-    
-    #URL que redirige a la página del administrador
-    #path("home/admin/", home_admin, name="home_admin"),
-
     #URL que redirige a la página de acerca de nosotros
     path("", views.index.as_view(), name="index"),
 
@@ -34,6 +27,19 @@ urlpatterns = [
 
     #URL para la vista de perfil
     path('perfil/', views.ver_perfil, name='ver_perfil'),  
+
+    # #URL para ver todas las experiencias
+    path('experiencias/', views.ver_todas_experiencias, name='ver_todas_experiencias'),
+
+    #URL para editar experiencia
+    path('editar_experiencia/<int:pk>/', views.editar_experiencia, name='editar_experiencia'),
+
+    # #URL para ver todas las certificiones
+    path('certificaciones/', views.ver_todas_certificaciones, name='ver_todas_certificaciones'),
+
+    #URL para editar certificacion
+    path('editar_certificacion/<int:pk>', views.editar_certificacion, name='editar_certificacion'),
+
 
 
 
