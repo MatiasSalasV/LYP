@@ -40,24 +40,24 @@ class RegistroUsuarioForm(UserCreationForm):
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido', 'email', 'tipo_usuario', 'nombre_empresa','presentacion', 'foto_perfil']
+        fields = ['nombre', 'apellido', 'email', 'tipo_usuario', 'nombre_empresa','presentacion']
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),  
             'tipo_usuario': forms.Select(attrs={'class': 'form-control'}),
             'nombre_empresa': forms.TextInput(attrs={'class': 'form-control'}),
             'presentacion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
+class FotoPerfil(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['foto_perfil']
+        widgets = {
+            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),  
+        }
 
-
-    def clean_tipo_usuario(self):
-        tipo_usuario = self.cleaned_data.get('tipo_usuario')
-        if tipo_usuario == '':
-            raise forms.ValidationError('Debes seleccionar un tipo de usuario.')
-        return tipo_usuario
     
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(

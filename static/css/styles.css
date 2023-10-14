@@ -745,6 +745,10 @@ footer li a:hover{
   background-color: #0A4654;
 }
 
+.separador {
+  border-top: 1px solid #00000050; /* Establece el estilo y el color de la línea */
+  margin-bottom: 30px; /* Ajusta el margen superior según tus necesidades */
+}
 
 /* Media query para pantallas grandes (por ejemplo, más de 768px de ancho) */
 @media (min-width: 1200px) {

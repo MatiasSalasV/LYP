@@ -14,7 +14,7 @@
                     {% else %}
                     <img src="https://cdn.icon-icons.com/icons2/2468/PNG/512/user_icon_149329.png" class="img-fluid" alt="Imagen por defecto">
                     {% endif %} 
-                    <button type="button" class="boton_avatar">
+                    <button type="button" class="boton_avatar" data-bs-toggle="modal" data-bs-target="#editarFotoModal">
                         <i class="bi bi-pen"></i>
                     </button>
                 </div>
@@ -26,7 +26,11 @@
         <div class="perfil_body">
             <div class="perfil_bio">
                 <h3 class="titulo">{{ perfil.nombre }} {{perfil.apellido}}</h3>
+                {% if perfil.presentacion %}
                 <p class="texto">{{perfil.presentacion}}</p>
+                {% else %}
+                <p class="texto"></p>
+                {% endif %}
                 <div class="row lista_datos">
                     <div class="col-lg-4">
                         <i class="bi bi-envelope icono icon_image"></i> {{ perfil.email }}
@@ -56,21 +60,28 @@
                             {% endif %}
                         </div>
                     </div>
-                    <!-- <hr> -->
+                    <div class="separador"></div>
                     <div class="col-lg-12">
-                        {% for experiencia in experiencias %}
-                            {% if forloop.counter <= 3 %}
-                                <p>{{ experiencia.nombre_proyecto }} - {{ experiencia.fecha_inicio }} a {{ experiencia.fecha_fin }}</p>
+                        <div class="div_experiencia_certificacion">
+                            {% for experiencia in experiencias %}
+                            <div class="experiencia_certificacion_detalle">
+                                {% if forloop.counter <= 3 %}
+                                <h5>{{ experiencia.nombre_proyecto }}</h5>
                                 <p>{{ experiencia.descripcion_proyecto }}</p>
-                            {% endif %}
-                        {% endfor %}
-                        
-                        {% if experiencias|length > 3 %}
-                            <a href="{% url 'ver_todas_experiencias' %}">Ver todos</a>
-                        {% elif experiencias|length == 0 %}
-                            <p>No hay experiencias registradas.</p>
-                        {% endif %}
+                                <p class="experiencia_funciones">Funciones: {{ experiencia.funciones }}</p>
+                                <small>{{experiencia.fecha_inicio}} - {% if experiencia.fecha_fin %} {{experiencia.fecha_fin}} {% else %} Actualidad {% endif %}</small>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
+                </div>
+                <div class="todas_experiencias_certificaciones">
+                    {% if experiencias|length > 3 %}
+                        <a href="{% url 'ver_todas_experiencias' %}"><button class="btn-full-width">Ver todos</button></a>
+                    {% elif experiencias|length == 0 %}
+                        <p>No hay experiencias registradas.</p>
+                    {% endif %}
                 </div>
             </div>
             <div class="perfil_certificaciones">
@@ -89,24 +100,34 @@
                             {% endif %}
                         </div>
                     </div>
-                    <!-- <hr> -->
+                    <div class="separador"></div>
                     <div class="col-lg-12">
-                        {% for certificacion in certificaciones %}
-                            {% if forloop.counter <= 3 %}
-                                <p>{{ certificacion.nombre_certificacion }} - {{ certificacion.fecha_obtencion }}</p>
-                            {% endif %}
-                        {% endfor %}
-    
-                        {% if certificaciones|length > 3 %}
-                            <a href="{% url 'ver_todas_certificaciones' %}">Ver todos</a>
-                        {% elif experiencias|length == 0 %}
-                            <p>No hay certificaciones registradas.</p>
-                        {% endif %}
+                        <div class="div_experiencia_certificacion">
+                            {% for certificacion in certificaciones %}
+                            <div class="experiencia_certificacion_detalle">
+                                {% if forloop.counter <= 3 %}
+                                    <h5>{{ certificacion.nombre_certificacion }}</h5>
+                                    <p>Fecha de obtención: {{ certificacion.fecha_obtencion }}</p>
+                                    {% if certificacion.archivo_certificacion %}
+                                    <a href="{{ certificacion.archivo_certificacion.url }}" target="_blank">Ver archivo</a>
+                                    {% else %}
+                                        <small>No hay archivo adjunto.</small>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
+                </div>
+                <div class="todas_experiencias_certificaciones">
+                    {% if certificaciones|length > 3 %}
+                        <a href="{% url 'ver_todas_certificaciones' %}"><button class="btn-full-width">Ver todos</button></a>
+                    {% elif certificaciones|length == 0 %}
+                        <p>No hay certificaciones registradas.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Modal para editar perfil  -->
@@ -145,21 +166,49 @@
                                 <div class="col-lg-12">
                                     <label for="{{ form.presentacion.id_for_label }}">Presentación:</label>
                                     {{ form.presentacion }}
-                                  </div> 
-                                <div class="col-lg-12">
-                                    <label for="{{ form.foto_perfil.id_for_label }}">Foto de perfíl:</label>
-                                    {{ form.foto_perfil }}
-                                </div>                                         
+                                </div>                                       
                             </div>
                         </fieldset>
-                        <!-- {{ form.as_p }} -->
                         <button type="submit" class="btn btn-primary" name="submit_button" value="usuario">Guardar cambios</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- Modal para editar/quitar foto de perfil -->
+    <div class="modal fade" id="editarFotoModal" tabindex="-1" aria-labelledby="editarFotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarFotoModalLabel">Foto de Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body form_registro">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if perfil.foto_perfil %}
+                            <img src="{{ perfil.foto_perfil.url }}" alt="Foto de perfil">
+                            {% else %}
+                            <img src="https://cdn.icon-icons.com/icons2/2468/PNG/512/user_icon_149329.png" class="img-fluid" alt="Imagen por defecto">
+                            {% endif %} 
+                        </div>
+                    </div>
+                    <form method="post" enctype="multipart/form-data" class="registro_usuario">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- <label for="{{ form_foto_perfil.foto_perfil.id_for_label }}"></label> -->
+                                    {{ form_foto_perfil.foto_perfil }}
+                                </div>                                         
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="btn btn-primary" name="submit_button" value="fotoperfil">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal para agregar experiencia -->
     <div class="modal fade" id="modalAgregarExperiencia" tabindex="-1" aria-labelledby="modalAgregarExperienciaLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -182,9 +231,8 @@
             </div>
         </div>          
     </div>
-    
-     <!-- Modal para agregar certificación -->
-     <div class="modal fade" id="modalAgregarCertificacion" tabindex="-1" aria-labelledby="modalAgregarCertificacionLabel" aria-hidden="true">
+    <!-- Modal para agregar certificación -->
+    <div class="modal fade" id="modalAgregarCertificacion" tabindex="-1" aria-labelledby="modalAgregarCertificacionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

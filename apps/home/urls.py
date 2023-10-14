@@ -32,13 +32,19 @@ urlpatterns = [
     path('experiencias/', views.ver_todas_experiencias, name='ver_todas_experiencias'),
 
     #URL para editar experiencia
-    path('editar_experiencia/<int:pk>/', views.editar_experiencia, name='editar_experiencia'),
+    path('experiencias/<int:pk>/editar', views.editar_experiencia, name='editar_experiencia'),
+
+    #URL para eliminar experiencia
+    path('experiencias/<int:pk>/eliminar/', views.eliminar_experiencia, name='eliminar_experiencia'),
 
     # #URL para ver todas las certificiones
     path('certificaciones/', views.ver_todas_certificaciones, name='ver_todas_certificaciones'),
 
     #URL para editar certificacion
-    path('editar_certificacion/<int:pk>', views.editar_certificacion, name='editar_certificacion'),
+    path('certificaciones/<int:pk>/editar', views.editar_certificacion, name='editar_certificacion'),
+
+    #URL para eliminar certificacion
+    path('certificaciones/<int:pk>/eliminar/', views.eliminar_certificacion, name='eliminar_certificacion'),
 
 
 

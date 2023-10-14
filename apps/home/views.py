@@ -6,7 +6,7 @@ from .models import *
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView,DeleteView
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden
@@ -38,7 +38,7 @@ def registro_usuario(request):
             if user is not None:
                 auth_login(request, user)  # Inicia la sesión del usuario
             messages.success(request, f'Cuenta creada para {username}')
-            return redirect('index')
+            return redirect('ver_perfil')
     else:
         form = RegistroUsuarioForm()
     return render(request, 'forms/registro_usuario.html', {'form': form})
@@ -48,7 +48,7 @@ def login(request):
         form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('index')
+            return redirect('ver_perfil')
         else:
                 messages.error(request, 'Correo y/o contraseña inválidos. Por favor, inténtelo de nuevo.')
                 form = LoginForm()
@@ -63,6 +63,7 @@ def ver_perfil(request):
     certificaciones = usuario.certificaciones.all()
     form_experiencia = ExperienciaForm()
     form_certificacion = CertificacionForm()
+    # form_foto_perfil = request.user
 
     if request.method == 'POST':
         submit_button = request.POST.get('submit_button')
@@ -91,14 +92,24 @@ def ver_perfil(request):
                 certificacion.save()
                 messages.success(request, 'Certificación agregada con éxito')
                 return redirect('ver_perfil')
+        
+        elif submit_button == 'fotoperfil':
+            form_foto_perfil = FotoPerfil(request.POST, request.FILES, instance=usuario)
+            if form_foto_perfil.is_valid():
+                form_foto_perfil.save()
+                messages.success(request, 'Foto de perfil actualizada con éxito')
+                return redirect('ver_perfil')
+
     else:
         form = UsuarioForm(instance=usuario)
+        form_foto_perfil = FotoPerfil(instance=usuario)
 
     contexto = {
         'perfil':usuario,
         'form': form,
         'form_experiencia': form_experiencia,
         'form_certificacion': form_certificacion,
+        'form_foto_perfil': form_foto_perfil,
         'experiencias': experiencias,
         'certificaciones': certificaciones,
     }
@@ -134,6 +145,16 @@ def editar_experiencia(request, pk):
     return render(request, 'usuario/editar_experiencia.html', contexto)
 
 @login_required
+def eliminar_experiencia(request, pk):
+    experiencia = Experiencia.objects.get(pk=pk)
+    # VALIDAR QUE EL USUARIO SEA DUEÑO DE LA EXPERIENCIA Y HACER DISEÑO PARA HTML DE ELIMINAR
+    if request.method == 'POST':
+        experiencia.delete()
+        return redirect('ver_todas_experiencias')
+    
+    return render(request, 'usuario/eliminar_experiencia.html', {'object': experiencia})
+
+@login_required
 def ver_todas_certificaciones(request):
     usuario = request.user
     todas_certificaciones = usuario.certificaciones.all()
@@ -160,3 +181,13 @@ def editar_certificacion(request, pk):
         'form': form,
     }
     return render(request, 'usuario/editar_certificacion.html', contexto)
+
+
+@login_required
+def eliminar_certificacion(request, pk):
+    certificacion = Certificacion.objects.get(pk=pk)
+    if request.method == 'POST':
+        certificacion.delete()
+        return redirect('ver_todas_certificaciones')
+    
+    return render(request, 'usuario/eliminar_certificacion.html', {'object': certificacion})
