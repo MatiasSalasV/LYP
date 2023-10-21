@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>{{ proyecto.nombre_proyecto }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Descripción del proyecto: {{ proyecto.descripcion }}</p>
+                <p></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Publicado por: {{ proyecto.usuario.nombre }} {{ proyecto.usuario.apellido }} {{ proyecto.categorias_proyecto }}</p>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Categorías del proyecto:</p>
+                <ul>
+                    {% for categoria in categorias %}
+        <li>{{ categoria.nombre }}</li>
+    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <label for="{{ form.categorias.id_for_label }}">Categorías:</label>
+                {% for category in form.categorias %}
+                <div class="form-check form-check-inline">
+                    {{ category }}
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if categorias_seleccionadas %}
+            <div class="col-lg-12">
+                <p>Categorías seleccionadas:</p>
+                <ul>
+                    {% for categoria in categorias_seleccionadas %}
+                    <li>{{ categoria.nombre }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+            <p>Estado del proyecto: {{ proyecto.estado }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Fecha de publicación: {{ proyecto.fecha_publicacion }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+            {% if proyecto.foto_proyecto %}
+                <img src="{{ proyecto.foto_proyecto.url }}" alt="Foto del proyecto" class="img-fluid">
+            {% else %}
+                <p>No hay foto disponible para este proyecto.</p>
+            {% endif %}
+            </div>
+        </div>
+      <!-- Aquí puedes agregar más detalles del proyecto si es necesario -->
+    </div>
+</section>
+{% endblock %}

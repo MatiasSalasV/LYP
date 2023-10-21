@@ -1,13 +1,42 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
 
 {% block content %}
-  <h1>Eliminar Experiencia</h1>
-  <p>¿Estás seguro de que deseas eliminar la experiencia "{{ object }}"?</p>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>Confirmar Eliminación de Experiencia</h1>
+            </div>
+        </div>
+        <div class="row text-center">
+          
+          <div class="col-lg-12">
+            <p>¿Estás seguro de que deseas eliminar la experiencia "{{ experiencia }}"?</p>
 
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Eliminar</button>
-  </form>
+            <form method="post" class="form_registro_user">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a href="{% url 'ver_todas_experiencias' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>            
+        </div>
 
-  <a href="{% url 'ver_todas_experiencias' %}">Cancelar</a>
+    </div>
+</section>
+
 {% endblock %}
+
+{% block extrajs %}
+
+{% endblock %}
+

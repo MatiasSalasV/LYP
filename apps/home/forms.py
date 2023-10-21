@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Usuario, Experiencia, Certificacion
+from .models import Usuario, Experiencia, Certificacion, Proyecto, Categoria
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
@@ -104,3 +104,21 @@ class CertificacionForm(forms.ModelForm):
             # 'fecha_obtencion': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'archivo_certificacion': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+
+class ProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = ['nombre_proyecto', 'descripcion', 'foto_proyecto', 'categorias', 'estado']
+        widgets = {
+            'nombre_proyecto': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'foto_proyecto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'categorias': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+            'estado': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    categorias = forms.ModelMultipleChoiceField(
+        queryset=Categoria.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )

@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from . import views
 
 
+
 urlpatterns = [
     #URL que redirige a la página de acerca de nosotros
     path("", views.index.as_view(), name="index"),
@@ -46,7 +47,14 @@ urlpatterns = [
     #URL para eliminar certificacion
     path('certificaciones/<int:pk>/eliminar/', views.eliminar_certificacion, name='eliminar_certificacion'),
 
+    #URL para crear proyecto
+    path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
 
+    #URL para ver todos los proyectos
+    path('proyectos1/', views.ver_todos_proyectos, name='ver_todos_proyectos'),
+
+    #URL para ver un proyecto específico
+    path('proyectos/<int:pk>/', views.ver_proyecto, name='ver_proyecto'),
 
 
 ]

@@ -146,13 +146,19 @@ def editar_experiencia(request, pk):
 
 @login_required
 def eliminar_experiencia(request, pk):
-    experiencia = Experiencia.objects.get(pk=pk)
-    # VALIDAR QUE EL USUARIO SEA DUEÑO DE LA EXPERIENCIA Y HACER DISEÑO PARA HTML DE ELIMINAR
-    if request.method == 'POST':
-        experiencia.delete()
-        return redirect('ver_todas_experiencias')
+    experiencia = get_object_or_404(Experiencia,pk=pk)
+    if experiencia.usuario == request.user:
+        if request.method == 'POST':
+            experiencia.delete()
+            messages.success(request, 'Experiencia eliminada con éxito.')
+            return redirect('ver_todas_experiencias')
+        return render(request, 'usuario/eliminar_experiencia.html', {'experiencia': experiencia})
     
-    return render(request, 'usuario/eliminar_experiencia.html', {'object': experiencia})
+    else:
+        # El usuario no es el propietario, muestra un mensaje de error
+        messages.error(request, 'No tienes permiso para eliminar esta experiencia.')
+        return redirect('ver_todas_experiencias')
+
 
 @login_required
 def ver_todas_certificaciones(request):
@@ -185,9 +191,49 @@ def editar_certificacion(request, pk):
 
 @login_required
 def eliminar_certificacion(request, pk):
-    certificacion = Certificacion.objects.get(pk=pk)
-    if request.method == 'POST':
-        certificacion.delete()
+    certificacion = get_object_or_404(Certificacion,pk=pk)
+    if certificacion.usuario == request.user:
+        if request.method == 'POST':
+            certificacion.delete()
+            messages.success(request,'Certificación eliminada con éxito.')
+            return redirect('ver_todas_certificaciones')
+        return render(request, 'usuario/eliminar_certificacion.html',{'certificacion':certificacion})
+    
+    else:
+        # El usuario no es el propietario, muestra un mensaje de error
+        messages.error(request, 'No tienes permiso para eliminar esta certificación.')
         return redirect('ver_todas_certificaciones')
     
-    return render(request, 'usuario/eliminar_certificacion.html', {'object': certificacion})
+
+
+def error_404_view(request, exception):
+    return render(request, 'errors/error404.html', status=404)
+
+@login_required
+def crear_proyecto(request):
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST, request.FILES)
+        if form.is_valid():
+            proyecto = form.save(commit=False)
+            proyecto.usuario = request.user  # Asigna el usuario actual como propietario del proyecto
+            proyecto.save()
+            return redirect('ver_proyecto', proyecto.pk)  # Redirige a la vista de detalles del proyecto
+    else:
+        form = ProyectoForm()
+    
+    return render(request, 'projects/crear_proyecto.html', {'form': form})
+
+@login_required
+def ver_todos_proyectos(request):
+    proyectos = Proyecto.objects.all()
+    return render(request, 'projects/ver_todos_proyectos.html', {'proyectos': proyectos})
+
+@login_required
+def ver_proyecto(request, pk):
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    categorias_proyecto = proyecto.categorias.all()  # Obtiene todas las categorías asociadas al proyecto
+    print(f'ESTAS SON AS CATEGIRIAS: {categorias_proyecto}')
+    return render(request, 'projects/ver_proyecto.html', {
+        'proyecto': proyecto,
+        'categorias': categorias_proyecto,
+    })

@@ -18,6 +18,10 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
+from django.views import defaults
+
+# handler404 = 'apps.home.views.error_404'
+handler404 = 'apps.home.views.error_404_view'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,3 +37,4 @@ urlpatterns = [
 
 
 ]
+

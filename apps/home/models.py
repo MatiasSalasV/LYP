@@ -196,9 +196,9 @@ class Proyecto(models.Model):
     nombre_proyecto = models.CharField(max_length=255)
     descripcion = models.TextField(blank=True, null=True)
     foto_proyecto = models.ImageField("Foto proyecto", upload_to='fotos_proyecto/', blank=True, null=True) 
-    categorias = models.ManyToManyField(Categoria, related_name='proyectos')  
     fecha_publicacion = models.DateField(auto_now_add=True)
     estado = models.CharField(max_length=50, choices=ESTADOS, default='publicado')
+    categorias = models.ManyToManyField(Categoria, through='ProyectoCategoria')
 
     def iniciar_proyecto(self):
         self.estado = 'en_ejecucion'
@@ -212,6 +212,20 @@ class Proyecto(models.Model):
             'foto_proyecto': self.foto_proyecto.url if self.foto_proyecto else None,  # Devuelve la URL de la imagen si existe, de lo contrario None.
             'fecha_publicacion': self.fecha_publicacion,
             'estado': self.get_estado_display(),  # Utiliza get_estado_display() para obtener la representación legible del estado.
+        }
+    
+    def ver_proyecto1(self):
+        categorias_proyecto = self.categorias.all()  # Obtén todas las categorías asociadas al proyecto
+        categorias = [categoria.nombre for categoria in categorias_proyecto]
+        categorias_str = ", ".join(categorias)  # Convierte la lista de nombres de categorías en una cadena separada por comas
+        return {
+            'usuario': self.usuario.nombre + ' ' + self.usuario.apellido,
+            'nombre_proyecto': self.nombre_proyecto,
+            'descripcion': self.descripcion,
+            'foto_proyecto': self.foto_proyecto.url if self.foto_proyecto else None,
+            'fecha_publicacion': self.fecha_publicacion,
+            'estado': self.get_estado_display(),
+            'categorias': categorias_str,  # Agrega la cadena de categorías al contexto
         }
     
     def es_completado(self):
@@ -237,6 +251,11 @@ class Proyecto(models.Model):
     def __str__(self):
         return f"{self.nombre_proyecto} - {self.usuario.nombre + ' ' + self.usuario.apellido}. Publicado el: {self.fecha_publicacion}"
 
+class ProyectoCategoria(models.Model):
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    fecha_asociacion = models.DateTimeField(auto_now_add=True)
+
 class Presupuesto(models.Model):
     ESTADOS = (
         ('borrador', 'Borrador'),
@@ -253,7 +272,7 @@ class Presupuesto(models.Model):
     fecha_creacion = models.DateField(auto_now_add=True)
     fecha_envio = models.DateField(null=True, blank=True)
     estado = models.CharField(max_length=50, choices=ESTADOS, default='borrador')
-
+    
     def cambiar_estado(self, nuevo_estado):
         if self.estado in ['Aceptado', 'Rechazado'] and nuevo_estado != self.estado:
             raise ValueError(f"El presupuesto ya ha sido {self.estado}. No se puede cambiar a {nuevo_estado}.")

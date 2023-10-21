@@ -139,7 +139,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body form_registro">
-                    <form method="post" enctype="multipart/form-data" class="registro_usuario">
+                    <form method="post" enctype="multipart/form-data" class="form_registro_user">
                         {% csrf_token %}
                         <fieldset class="form-group">
                             <div class="row">
@@ -169,8 +169,11 @@
                                 </div>                                       
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn btn-primary" name="submit_button" value="usuario">Guardar cambios</button>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" name="submit_button" value="usuario">Actualizar perfil</button>
+                        </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -193,7 +196,7 @@
                             {% endif %} 
                         </div>
                     </div>
-                    <form method="post" enctype="multipart/form-data" class="registro_usuario">
+                    <form method="post" enctype="multipart/form-data" class="form_registro_user">
                         {% csrf_token %}
                         <fieldset class="form-group">
                             <div class="row">
@@ -203,7 +206,9 @@
                                 </div>                                         
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn btn-primary" name="submit_button" value="fotoperfil">Guardar cambios</button>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" name="submit_button" value="fotoperfil">Guardar cambios</button>
+                        </div>
                     </form>
                 </div>
             </div>

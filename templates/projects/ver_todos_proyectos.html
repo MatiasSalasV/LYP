@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Todos los proyectos</h1>
+        <ul>
+            {% for proyecto in proyectos %}
+                <li>
+                    <h2>{{ proyecto.nombre_proyecto }}</h2>
+                    <p>{{ proyecto.descripcion }}</p>
+                    <p>Estado: {{ proyecto.estado }}</p>
+                    <!-- Agrega más detalles del proyecto según tus necesidades -->
+                </li>
+            {% empty %}
+                <p>No hay proyectos disponibles.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
