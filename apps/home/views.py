@@ -48,10 +48,11 @@ def login(request):
         form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
+            # messages.success(request, '¡Inicio de sesión exitoso!')
             return redirect('ver_perfil')
         else:
-                messages.error(request, 'Correo y/o contraseña inválidos. Por favor, inténtelo de nuevo.')
-                form = LoginForm()
+            messages.error(request, 'Correo y/o contraseña inválidos. Por favor, inténtelo de nuevo.')
+            form = LoginForm()
     else:
         form = LoginForm()
     return render(request, 'forms/login.html', {'form': form})
@@ -61,6 +62,7 @@ def ver_perfil(request):
     usuario = request.user
     experiencias = usuario.experiencias.all()
     certificaciones = usuario.certificaciones.all()
+    proyectos = usuario.proyectos.all()
     form_experiencia = ExperienciaForm()
     form_certificacion = CertificacionForm()
     # form_foto_perfil = request.user
@@ -112,6 +114,7 @@ def ver_perfil(request):
         'form_foto_perfil': form_foto_perfil,
         'experiencias': experiencias,
         'certificaciones': certificaciones,
+        'proyectos':proyectos,
     }
 
     return render(request, 'usuario/ver_perfil.html', contexto)
@@ -216,12 +219,61 @@ def crear_proyecto(request):
         if form.is_valid():
             proyecto = form.save(commit=False)
             proyecto.usuario = request.user  # Asigna el usuario actual como propietario del proyecto
-            proyecto.save()
-            return redirect('ver_proyecto', proyecto.pk)  # Redirige a la vista de detalles del proyecto
+            if proyecto.usuario.tipo_usuario != 'Constructora':
+                messages.error(request, 'Solo un usuario de tipo Constructora puede publicar un proyecto.')
+            
+            else:
+                proyecto.save()
+                messages.success(request, 'Proyecto creado con éxito')
+                return redirect('ver_mis_proyectos')  # Redirige a la vista de detalles del proyecto
+            
     else:
         form = ProyectoForm()
     
     return render(request, 'projects/crear_proyecto.html', {'form': form})
+
+@login_required
+def editar_proyecto(request, pk):
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+
+    # Verifica que el usuario que intenta editar sea el mismo que creó el proyecto
+    if proyecto.usuario != request.user:
+        messages.error(request, 'No tienes permiso para editar este proyecto.')
+        return redirect('ver_mis_proyectos')
+
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST, request.FILES, instance=proyecto)
+        if form.is_valid():
+            proyecto = form.save()
+            messages.success(request, 'Proyecto actualizado con éxito')
+            return redirect('ver_mis_proyectos')
+    else:
+        form = ProyectoForm(instance=proyecto)
+
+    return render(request, 'projects/editar_proyecto.html', {'form': form, 'proyecto': proyecto})
+
+
+@login_required
+def eliminar_proyecto(request, pk):
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+
+    # Verifica que el usuario que intenta eliminar sea el mismo que creó el proyecto
+    if proyecto.usuario != request.user:
+        messages.error(request, 'No tienes permiso para eliminar este proyecto.')
+        return redirect('ver_mis_proyectos')
+
+    if request.method == 'POST':
+        # El usuario ha confirmado la eliminación, elimina el proyecto
+        proyecto.delete()
+        messages.success(request, 'Proyecto eliminado con éxito')
+        return redirect('ver_mis_proyectos')
+
+    return render(request, 'projects/eliminar_proyecto.html', {'proyecto': proyecto})
+
+@login_required
+def ver_mis_proyectos(request):
+    proyectos = Proyecto.objects.filter(usuario=request.user)
+    return render(request, 'projects/ver_mis_proyectos.html', {'proyectos': proyectos})
 
 @login_required
 def ver_todos_proyectos(request):

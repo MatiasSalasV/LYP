@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>Confirmar Eliminación de Proyecto</h1>
+            </div>
+        </div>
+        <div class="row text-center">
+          
+          <div class="col-lg-12">
+            <p>¿Estás seguro de que deseas eliminar el proyecto "{{ proyecto }}"?</p>
+
+            <form method="post" class="form_registro_user">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a href="{% url 'ver_mis_proyectos' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>            
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extrajs %}
+
+{% endblock %}

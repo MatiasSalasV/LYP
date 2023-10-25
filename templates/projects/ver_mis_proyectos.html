@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block heroimage %}
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>Mis Proyectos</h1>
+                <a href="{% url 'ver_perfil' %}" class="btn btn-primary">Volver</a>
+            </div>
+        </div>
+        <div class="row">
+            {% if proyectos %}
+                {% for proyecto in proyectos %}
+                <div class="col-lg-12 d-flex justify-content-between mb-4">
+                    <div class="div_experiencia_certificacion">
+                        <div class="experiencia_certificacion_detalle">
+                            <h5>{{ proyecto.nombre_proyecto }}</h5>
+                            <p>{{ proyecto.descripcion }}</p>
+                            <p class="experiencia_funciones">Estado: {{ proyecto.estado }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'editar_proyecto' proyecto.id %}" class="icon-circle">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                        <a href="{% url 'eliminar_proyecto' proyecto.id %}" class="icon-circle-delete">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12 text-center">
+                    <p>No has publicado proyectos todavía.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

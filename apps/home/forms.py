@@ -55,7 +55,7 @@ class FotoPerfil(forms.ModelForm):
         model = Usuario
         fields = ['foto_perfil']
         widgets = {
-            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),  
+            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),  
         }
 
     

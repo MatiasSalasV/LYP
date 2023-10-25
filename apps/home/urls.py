@@ -50,6 +50,16 @@ urlpatterns = [
     #URL para crear proyecto
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
 
+    #URL para editar proyecto
+    path('proyectos/<int:pk>/editar/', views.editar_proyecto, name='editar_proyecto'),
+
+    #URL para eliminar proyecto
+    path('proyectos/<int:pk>/eliminar/', views.eliminar_proyecto, name='eliminar_proyecto'),
+
+    #URL para ver solo poryectos del usuario que los publica
+    path('mis_proyectos/', views.ver_mis_proyectos, name='ver_mis_proyectos'),
+
+
     #URL para ver todos los proyectos
     path('proyectos1/', views.ver_todos_proyectos, name='ver_todos_proyectos'),
 

@@ -1,19 +1,72 @@
 {% extends 'base.html' %}
+{% load static %} 
+
+{% block heroimage%}
+{% endblock %}
 
 {% block content %}
+
+<section id="proyectos_detalle" class="proyectos_detalle">
     <div class="container">
-        <h1>Todos los proyectos</h1>
-        <ul>
+        <div class="row ultimos-proyectos">
+            <div class="col-lg-12 text-center col-proyectos-titulo">
+                <p class="display-2">Últimos proyectos agregados</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="image-box">
+                    <img src="https://vallequintajunge.cl/wp-content/uploads/2019/03/Fachada-Suroriente-nocturna.jpg" class="img-fluid" alt="...">
+                    <div class="overlay">
+                        <h2>Título del texto</h2>
+                        <h3>Subtítulo del texto</h3>
+                        <p>Descripción del texto que se muestra cuando el mouse pasa por encima de la imagen.</p>
+                        <a href="#">Enlace</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="image-box">
+                    <img src="https://vallequintajunge.cl/wp-content/uploads/2019/03/Fachada-Suroriente-nocturna.jpg" class="img-fluid" alt="...">
+                    <div class="overlay">
+                        <h2>Título del texto</h2>
+                        <h3>Subtítulo del texto</h3>
+                        <p>Descripción del texto que se muestra cuando el mouse pasa por encima de la imagen.</p>
+                        <a href="#">Enlace</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="image-box">
+                    <img src="https://vallequintajunge.cl/wp-content/uploads/2019/03/Fachada-Suroriente-nocturna.jpg" class="img-fluid" alt="...">
+                    <div class="overlay">
+                        <h2>Título del texto</h2>
+                        <h3>Subtítulo del texto</h3>
+                        <p>Descripción del texto que se muestra cuando el mouse pasa por encima de la imagen.</p>
+                        <a href="#">Enlace</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="display-2 text-center col-proyectos-titulo">Todos los proyectos</p>
+            </div>
             {% for proyecto in proyectos %}
-                <li>
-                    <h2>{{ proyecto.nombre_proyecto }}</h2>
-                    <p>{{ proyecto.descripcion }}</p>
-                    <p>Estado: {{ proyecto.estado }}</p>
-                    <!-- Agrega más detalles del proyecto según tus necesidades -->
-                </li>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="image-box">
+                    <img src="https://vallequintajunge.cl/wp-content/uploads/2019/03/Fachada-Suroriente-nocturna.jpg" class="img-fluid" alt="...">
+                    <div class="overlay">
+                        <h2>{{ proyecto.nombre_proyecto }}</h2>
+                        <h3>Subtítulo del texto</h3>
+                        <p>{{ proyecto.descripcion }}</p>
+                        <a href="{% url 'ver_proyecto' proyecto.id %}">Ver proyecto</a>
+                    </div>
+                </div>
+            </div>
             {% empty %}
                 <p>No hay proyectos disponibles.</p>
             {% endfor %}
-        </ul>
+        </div>
     </div>
-{% endblock %}
+</section>
+
+{% endblock content %}

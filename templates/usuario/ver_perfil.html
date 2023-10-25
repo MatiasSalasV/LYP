@@ -43,6 +43,7 @@
                     </div>
                 </div>
             </div>
+            {% if request.user.tipo_usuario == 'Contratista' %}
             <div class="perfil_experiencias">
                 <div class="row row_experiencias">
                     <div class="col-lg-12 d-flex justify-content-between">
@@ -127,6 +128,51 @@
                     {% endif %}
                 </div>
             </div>
+            {% elif request.user.tipo_usuario == 'Constructora' %}
+            <div class="perfil_proyectos">
+                <div class="row row_certificaciones">
+                    <div class="col-lg-12 d-flex justify-content-between">
+                        <p class="titulo">Proyectos</p>
+                        <div class="d-flex align-items-center">
+                            <a href="{% url 'crear_proyecto' %}" class="icon-circle">
+                                <i class="bi bi-plus-circle"></i>
+                            </a>
+                            {% if proyectos|length > 0 %}
+                            <a href="{% url 'ver_mis_proyectos' %}" class="icon-circle">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            {% else %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="separador"></div>
+                    <div class="col-lg-12">
+                        <div class="div_experiencia_certificacion">
+                            {% for proyecto in proyectos %}
+                            <div class="experiencia_certificacion_detalle">
+                                {% if forloop.counter <= 3 %}
+                                    <h5>{{ proyecto.nombre_proyecto }}</h5>
+                                    <p>Fecha de obtención: {{ proyecto.fecha_publicacion }}</p>
+                                    {% if proyecto.foto_proyecto %}
+                                    <a href="{{ proyecto.foto_proyecto.url }}" target="_blank">Ver archivo</a>
+                                    {% else %}
+                                        <small>No hay archivo adjunto.</small>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="todas_experiencias_certificaciones">
+                    {% if proyectos|length > 3 %}
+                        <a href="{% url 'ver_mis_proyectos' %}"><button class="btn-full-width">Ver todos</button></a>
+                    {% elif proyectos|length == 0 %}
+                        <p>No hay proyectos registrados.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 
@@ -196,11 +242,11 @@
                             {% endif %} 
                         </div>
                     </div>
-                    <form method="post" enctype="multipart/form-data" class="form_registro_user">
+                    <form method="post" enctype="multipart/form-data" class="form_registro_user mb-3">
                         {% csrf_token %}
                         <fieldset class="form-group">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 mb-3">
                                     <!-- <label for="{{ form_foto_perfil.foto_perfil.id_for_label }}"></label> -->
                                     {{ form_foto_perfil.foto_perfil }}
                                 </div>                                         
